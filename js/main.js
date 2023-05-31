@@ -29,15 +29,19 @@ var gAppendSeconds = document.getElementById("seconds")
 
 
 function onInit() {
+
     gElSmily.innerHTML = gSmilys.default
     gGame.isOn = true
     gGame.shownCount = 0
     gGame.markedCount = 0
     gGame.secsPassed = 0
+    gSconds = 0
+    gTens = 0
     gBoard = buildBoard()
     console.table(gBoard)
     renderBoard(gBoard)
-    gTimerInterval = setInterval(StartTimer, 10)
+    clearInterval(gTimerInterval)
+    gTimerInterval = setInterval(StartTimer, 1000)
 
 
 
