@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,19 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body onload="onInit()">
     <h1>hello</h1>
+    <h2>yo <span></span></h2>
+    <div class="timerBox">
+        <p><span id="seconds">00</span>:<span id="tens">00</span></p>
+    </div>
     <div class="gameBox">
+        <div class="buttons-list">
+            <button class="lvl-button" onclick="chooseLevel(4,2)"> Easy</button>
+            <button class="lvl-button" onclick="chooseLevel(8,14)"> Mediume</button>
+            <button class="lvl-button" onclick="chooseLevel(12,32)"> Hard</button>
+        </div>
         <table>
             <tbody class="boardCover"></tbody>
         </table>
@@ -18,7 +29,9 @@
             <tbody class="board"></tbody>
         </table>
     </div>
-        <script src="js/util.js"></script>
+    <footer>Tomer Appelman</footer>
+    <script src="js/util.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
