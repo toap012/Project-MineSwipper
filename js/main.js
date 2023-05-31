@@ -161,6 +161,7 @@ function renderBoard(board) {
 function onCellClicked(elCell, i, j) {
     const cell = gBoard[i][j]
     if (cell.isMine === true) {
+        elCell.innerText = cell.str
         gameOver()
         return
     }
@@ -247,6 +248,7 @@ function checkGameWon() {
         gGame.isOn = false
         // showModal()
         gElSmily.innerHTML = gSmilys.win
+        clearInterval(gTimerInterval)
         console.log('yay')
         setTimeout(onInit, 5000)
     }
@@ -255,14 +257,13 @@ function checkGameWon() {
 function gameOver() {
     gElSmily.innerHTML = gSmilys.lose
     console.log('try again')
+    clearInterval(gTimerInterval)
+
     // showModal()
     gGame.isOn = false
     setTimeout(onInit, 5000)
 
 
-}
-function timerStop() {
-
-}
+} 
 
 

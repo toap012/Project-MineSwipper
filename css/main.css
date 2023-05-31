@@ -1,6 +1,6 @@
 body {
     background-color: black;
-    color: white;
+    color: red;
     text-align: center;
 }
 
@@ -18,4 +18,12 @@ body {
     width: 2em;
     height: 2em;
     
+}
+.smily{
+    height: 100px;
+    width: 100px;
+    background: none;
+    border-radius: 50%;
+    font-size: 100px;
+    text-align: center;
 }
