@@ -7,11 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
+    <style>
+        body{
+            background-image: url(img/stars_gif.gif);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body onload="onInit()">
-    <h1>hello</h1>
-    <h2>yo <button class="smily"><span></span></button></h2>
+    <h1>Mine Swepper v1</h1>
+    <h2> <button class="smily" onclick="onSmilyClick()"><span></span></button></h2>
     <div class="timerBox">
         <p><span id="seconds">00</span>:<span id="tens">00</span></p>
     </div>
@@ -21,6 +29,9 @@
             <button class="lvl-button" onclick="chooseLevel(8,14)"> Mediume</button>
             <button class="lvl-button" onclick="chooseLevel(12,32)"> Hard</button>
         </div>
+        <div class="hints" onclick="getHint()"> Get Hint <span>Hints Left: </span></div>
+        <div class="healthPoints"></div>
+
         <table>
             <tbody class="boardCover"></tbody>
         </table>

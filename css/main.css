@@ -1,29 +1,68 @@
 body {
-    background-color: black;
-    color: red;
+    border: solid black;
+    color: rgb(204, 0, 255);
     text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
 }
+
 
 .board-container {
     margin: auto;
-    border: solid beige;
+    border: ridge gray;
     border-spacing: 4px;
     border-collapse: separate;
 }
 
 .cell {
-    background-color: aqua;
-    border: solid beige;
+    color: blue;
+    background-color: rgb(131, 125, 131);
+    border: solid rgb(253, 253, 253);
     font-size: 1.5em;
-    width: 2em;
-    height: 2em;
+    width: 50px;
+    height: 50px;
     
 }
 .smily{
-    height: 100px;
-    width: 100px;
     background: none;
-    border-radius: 50%;
     font-size: 100px;
-    text-align: center;
+    border: none;
 }
+.hints{
+    color: yellow;
+    padding: 10px;
+    border: solid yellow;
+    width: 200px;
+    margin-left: 300px;
+    font-size: 20px;
+}
+.hints:hover{
+    cursor: pointer;
+}
+.revealed{
+background-color: lightyellow;
+}
+.hints span{
+    color: white;
+    font-size: 12px;
+}
+.healthPoints{
+    color: red;
+    font-size: 50px;
+}
+.buttons-list{
+    margin: 10px;
+}
+footer{
+    margin-top: 50px;
+    font-size: 50px;
+}
+.lvl-button{
+background-color: burlywood;
+border-radius: 10px;
+width: 80px;
+height: 30px;
+}
+button:hover{
+    cursor: pointer;
+}
+
