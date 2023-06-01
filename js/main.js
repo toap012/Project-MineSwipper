@@ -140,6 +140,7 @@ function GetCellsStr() { // places the stirng in gBoard cells
             }
             var MinesNegsCount = MinesNegsCounter(gBoard, i, j)
             gBoard[i][j].minesAroundCount = MinesNegsCount
+            if (MinesNegsCount === 0) continue
             gBoard[i][j].str = MinesNegsCount.toString()
         }
     }
@@ -188,7 +189,7 @@ function renderBoard(board) {
 
 function onCellClicked(elCell, i, j) {
     const cell = gBoard[i][j]
-    if (cell.isShown || cell.isMarked||!gGame.isOn) {
+    if (cell.isShown || cell.isMarked || !gGame.isOn) {
         console.log('cell is shown, or marked')
         return
     }
@@ -203,6 +204,7 @@ function onCellClicked(elCell, i, j) {
         renderHints(i, j)
         if (gHintsCount === 0) {
             gElHintSpan.innerText = 'No Hints Left'
+            gHintActivated = false
             return
         }
         return
@@ -214,11 +216,14 @@ function onCellClicked(elCell, i, j) {
         cell.isShown = true
         gElHp.innerText = gHp.slice(0, gHealthPoints)
         // elCell.classList.add('shown')
-
         console.log(gHealthPoints)
         if (gHealthPoints === 0) {
             gameOver()
             return
+        }else{
+            sadSmily()
+            setTimeout(normalSmily,1000)
+
         }
         return
     }
@@ -247,7 +252,7 @@ function showNegsAround(rowIdx, colIdx) {
             console.log(currCell)
             if (currCell.isShown === true) continue
             var currElCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
-            // currElCell.classList.add('shown')
+            currElCell.classList.add('shown')
             currElCell.innerText = currCell.str
             currCell.isShown = true
             gGame.shownCount++
@@ -259,7 +264,7 @@ function showNegsAround(rowIdx, colIdx) {
 }
 
 function onCellMarked(ev, elCell) {
-    if(!gGame.isOn)return
+    if (!gGame.isOn) return
     elCell.addEventListener("contextmenu", (e) => {
         e.preventDefault();
     });
@@ -306,20 +311,21 @@ function checkGameWon() {
         // showModal()
         gElSmily.innerHTML = gSmilys.win
         revealMines()
-        setWinnerResult(gTimerInterval)
+        setTimeout(setWinnerResult,4000,gTimerInterval)
+        // setWinnerResult(gTimerInterval)
         clearInterval(gTimerInterval)
-        setTimeout(onInit, 5000)
+        // setTimeout(onInit, 5000)
     }
 }
 
 function gameOver() {
     revealMines()
-    gElSmily.innerHTML = gSmilys.lose
+    sadSmily()
     console.log('try again')
     clearInterval(gTimerInterval)
     // showModal()
     gGame.isOn = false
-    setTimeout(onInit, 5000)
+    // setTimeout(onInit, 5000)
 
 
 }
@@ -388,6 +394,12 @@ function renderHints(i, j) {
     console.log(gHintsCount)
     gHintActivated = false
     gElHintSpan.innerText = 'Hints Left: ' + gHints.slice(0, gHintsCount * 2)
+}
+function sadSmily(){
+    gElSmily.innerHTML = gSmilys.lose
+}
+function normalSmily(){
+    gElSmily.innerHTML = gSmilys.default
 }
 
 

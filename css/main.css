@@ -1,68 +1,125 @@
 body {
+    /* position: absolute; */
     border: solid black;
-    color: rgb(204, 0, 255);
+    color: rgb(255, 13, 0);
     text-align: center;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 800px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
 }
 
+.gameBox{
+    margin-top: 100px;
+}
+ 
 
 .board-container {
     margin: auto;
     border: ridge gray;
     border-spacing: 4px;
     border-collapse: separate;
+    /* position: fixed; */
 }
 
 .cell {
-    color: blue;
+    color: rgb(237, 25, 25);
     background-color: rgb(131, 125, 131);
     border: solid rgb(253, 253, 253);
     font-size: 1.5em;
     width: 50px;
     height: 50px;
-    
+    transition: 0.8s;
+
 }
-.smily{
+h1{
+    padding: 0;
+    margin: 0;
+}
+p{
+    margin: 0;
+}
+h2{
+    padding: 0px;
+    margin: 0px;
+    height: 0px;
+}
+
+button.smily {
+    /* padding: 0; */
+    /* margin: 0; */
     background: none;
     font-size: 100px;
     border: none;
+    /* position: absolute; */
+    
+
 }
-.hints{
+
+.hints {
+    /* position: absolute; */
     color: yellow;
     padding: 10px;
     border: solid yellow;
     width: 200px;
-    margin-left: 300px;
+    margin-left: 600px;
+    margin-top: 10px;
     font-size: 20px;
+    /* float: left; */
 }
-.hints:hover{
-    cursor: pointer;
-}
-.revealed{
-background-color: lightyellow;
-}
-.hints span{
-    color: white;
-    font-size: 12px;
-}
-.healthPoints{
-    color: red;
-    font-size: 50px;
-}
-.buttons-list{
-    margin: 10px;
-}
-footer{
-    margin-top: 50px;
-    font-size: 50px;
-}
-.lvl-button{
-background-color: burlywood;
-border-radius: 10px;
-width: 80px;
-height: 30px;
-}
-button:hover{
+
+.hints:hover {
     cursor: pointer;
 }
 
+.revealed {
+    background-color: lightyellow;
+}
+
+.hints span {
+    color: white;
+    font-size: 12px;
+}
+
+.healthPoints {
+    position: absolute;
+    /* float: right ; */
+    color: red;
+    font-size: 50px;
+    margin-left: 1150px;
+    margin-top: 90px;
+    
+
+}
+
+.buttons-list {
+    position: absolute;
+    margin-left: 850px;
+    margin-top: 10px;
+}
+
+footer {
+    margin-top: 800px;
+    font-size: 50px;
+}
+
+.lvl-button {
+    background-color: burlywood;
+    border-radius: 10px;
+    width: 80px;
+    height: 30px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.shown {
+    background: none;
+    border: solid rgba(56, 56, 56, 0.748) 7px;
+    width: 40px;
+    height: 40px;
+    
+}

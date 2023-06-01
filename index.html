@@ -18,11 +18,12 @@
 </head>
 
 <body onload="onInit()">
-    <h1>Mine Swepper v1</h1>
+    <h1>Mine Swepper Prototype-v2</h1>
     <h2> <button class="smily" onclick="onSmilyClick()"><span></span></button></h2>
     <div class="timerBox">
         <p><span id="seconds">00</span>:<span id="tens">00</span></p>
     </div>
+    <div class="healthPoints"></div>
     <div class="gameBox">
         <div class="buttons-list">
             <button class="lvl-button" onclick="chooseLevel(4,2)"> Easy</button>
@@ -30,7 +31,6 @@
             <button class="lvl-button" onclick="chooseLevel(12,32)"> Hard</button>
         </div>
         <div class="hints" onclick="getHint()"> Get Hint <span>Hints Left: </span></div>
-        <div class="healthPoints"></div>
 
         <table>
             <tbody class="boardCover"></tbody>
