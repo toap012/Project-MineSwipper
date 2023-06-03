@@ -8,7 +8,7 @@ const gSmilys = {
 }
 var gHp = '❤❤❤'
 var gHints = '💡💡💡'
-var gElSmily = document.querySelector('h2 span')
+var gElSmily = document.querySelector('.smily')
 gElSmily.innerText = gSmilys.default
 var gElHp = document.querySelector('.healthPoints')
 gElHp.innerText = gHp
@@ -29,38 +29,42 @@ var gHealthPoints = 3
 var gHintsCount = 3
 var gFirstClick = false
 var gTimerInterval
-var gSconds = 0
+var gCurrScore = 0
 var gTens = 0
-var gAppendTens = document.getElementById("tens")
+var gSeconds = 0
 var gAppendSeconds = document.getElementById("seconds")
+var gAppendTens = document.getElementById("tens")
 var gHintActivated = false
-var gWinnersEasy = []
-var gWinnersMediume = []
-var gWinnersHard = []
+var gWinnersBoard
+var gWinners = []
 
 
 
 function onInit() {
-    console.log(window.localStorage.getItem('score'))
     gElSmily.innerHTML = gSmilys.default
+    gWinners = []
     gGame.isOn = true
     gGame.shownCount = 0
     gGame.markedCount = 0
     gGame.secsPassed = 0
-    gSconds = 0
     gTens = 0
+    gSeconds = 0
     gFirstClick = false
     gHealthPoints = 3
     gHp = '❤❤❤'
     gHints = '💡💡💡'
     gElHintSpan.innerHTML = 'Hints Left: ' + gHints
     gElHp.innerHTML = gHp
+    gAppendSeconds.innerHTML = '00'
+    gAppendTens.innerHTML = '00'
     gHintsCount = 3
     gHintActivated = false
     gBoard = buildBoard()
     renderBoard(gBoard)
+    gCurrScore = gTimerInterval
     clearInterval(gTimerInterval)
     gTimerInterval = setInterval(StartTimer, 1000)
+    getResults(gLevel.SIZE)
 }
 
 function getHint() {
@@ -72,26 +76,26 @@ function onSmilyClick() {
 }
 
 function firstClick(elcell, rowIdx, colIdx) {
-    console.log('first click')
+    // console.log('first click')
     setMines(rowIdx, colIdx)
 }
 
 function StartTimer() {
-    gTens++
-    if (gTens <= 9) {
+    gSeconds++
+    if (gSeconds <= 9) {
+        gAppendSeconds.innerHTML = '0' + gSeconds
+    }
+    if (gSeconds > 9) {
+        gAppendSeconds.innerHTML = gSeconds
+    }
+    if (gSeconds > 59) {
+        gTens++
         gAppendTens.innerHTML = '0' + gTens
+        gSeconds = 0
+        gAppendSeconds.innerHTML = '0' + 0
     }
     if (gTens > 9) {
         gAppendTens.innerHTML = gTens
-    }
-    if (gTens > 99) {
-        gSconds++
-        gAppendSeconds.innerHTML = '0' + gSconds
-        gTens = 0
-        gAppendTens.innerHTML = '0' + 0
-    }
-    if (gSconds > 9) {
-        gAppendSeconds.innerHTML = gSconds
     }
 }
 
@@ -151,6 +155,67 @@ function chooseLevel(rowCount, minesCount) {
     gLevel.MINES = minesCount
     gLevel.SIZE = rowCount
     onInit()
+
+}
+function getResults(level) {
+    var currLevelWinners
+    switch (level) {
+        case 4:
+            currLevelWinners = JSON.parse(window.localStorage.getItem('scoreEasy'))
+            break
+        case 8:
+            currLevelWinners = JSON.parse(window.localStorage.getItem('scoreMeduim'))
+            break
+        case 12:
+            currLevelWinners = JSON.parse(window.localStorage.getItem('scoreHard'))
+            break
+        default: currLevelWinners = JSON.parse(window.localStorage.getItem('scoreEasy'))
+    }
+    gWinners.push(currLevelWinners)
+    gWinnersBoard = buildWinnersBoard(gWinners)
+    renderWinnersBoard(gWinnersBoard)
+
+}
+function buildWinnersBoard(winners) {
+    var board = []
+    for (var i = 0; i < winners.length + 1; i++) {
+        board.push([])
+        if (!winners[0]) break
+        for (var j = 0; j < 2; j++) {
+            if (i === 0) continue
+            if (!winners[i - 1].name || !winners[i - 1].score) continue
+            var currCell = board[i][j]
+            if (j === 0) {
+                currCell = winners[i - 1].name
+            } else if (j === 1) {
+                currCell = winners[i - 1].score
+            }
+            board[i][j] = currCell
+        }
+
+    }
+    board[0][0] = 'Name'
+    board[0][1] = 'Time'
+    console.table(board)
+    return board
+}
+function renderWinnersBoard(board) {
+    var strHTML = ''
+    for (var i = 0; i < board.length; i++) {
+        strHTML += `<tr>\n`
+        for (var j = 0; j < board[0].length; j++) {
+            var cellStr = board[i][j]
+            var className
+            className = 'winnerCell'
+            if (i === 0 && j === 0 || i === 0 && j === 1) className = 'WinnersHeader'
+            strHTML += `\t<td 
+                             class="${className}"> ${cellStr}
+                         </td>\n`
+        }
+        strHTML += `</tr>\n`
+    }
+    const elWinnersCells = document.querySelector('.winnersBoard')//Tbody class name
+    elWinnersCells.innerHTML = strHTML
 }
 
 function MinesNegsCounter(mat, rowIdx, colIdx) {
@@ -220,9 +285,9 @@ function onCellClicked(elCell, i, j) {
         if (gHealthPoints === 0) {
             gameOver()
             return
-        }else{
+        } else {
             sadSmily()
-            setTimeout(normalSmily,1000)
+            setTimeout(normalSmily, 1000)
 
         }
         return
@@ -231,13 +296,13 @@ function onCellClicked(elCell, i, j) {
     cell.isShown = true
     // DOM
     elCell.innerText = cell.str
-    console.log('cell.str', cell.str, 'innerText', elCell.innerText);
+    // console.log('cell.str', cell.str, 'innerText', elCell.innerText);
     gGame.shownCount++
     elCell.classList.add('shown')
     if (cell.minesAroundCount === 0) {
         showNegsAround(i, j)
     }
-    console.log(gGame.shownCount)
+    // console.log(gGame.shownCount)
     checkGameWon()
     // console.log(elCell.innerText)
 }
@@ -249,7 +314,7 @@ function showNegsAround(rowIdx, colIdx) {
             if (j < 0 || j > gBoard[0].length - 1) continue
             if (i === rowIdx && j === colIdx) continue
             var currCell = gBoard[i][j]
-            console.log(currCell)
+            // console.log(currCell)
             if (currCell.isShown === true) continue
             var currElCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
             currElCell.classList.add('shown')
@@ -269,8 +334,8 @@ function onCellMarked(ev, elCell) {
         e.preventDefault();
     });
     if (ev.button === 2 && !elCell.classList.contains('shown')) {
-        console.log('marked')
-        console.log(elCell)
+        // console.log('marked')
+        // console.log(elCell)
         var i = elCell.dataset.i
         var j = elCell.dataset.j
         if (gBoard[i][j].isMine === true) {
@@ -299,7 +364,7 @@ function onCellMarked(ev, elCell) {
 
 
         }
-        console.log(gGame.markedCount)
+        // console.log(gGame.markedCount)
         checkGameWon()
     }
 }
@@ -311,9 +376,11 @@ function checkGameWon() {
         // showModal()
         gElSmily.innerHTML = gSmilys.win
         revealMines()
-        setTimeout(setWinnerResult,4000,gTimerInterval)
-        // setWinnerResult(gTimerInterval)
+        gCurrScore = gAppendSeconds.innerHTML
+        console.log(gAppendSeconds.innerHTML)
+        setTimeout(setWinnerResult, 4000, gCurrScore)
         clearInterval(gTimerInterval)
+        // setWinnerResult(gTimerInterval)
         // setTimeout(onInit, 5000)
     }
 }
@@ -322,7 +389,7 @@ function gameOver() {
     revealMines()
     sadSmily()
     console.log('try again')
-    clearInterval(gTimerInterval)
+    // clearInterval(gTimerInterval)
     // showModal()
     gGame.isOn = false
     // setTimeout(onInit, 5000)
@@ -366,20 +433,18 @@ function revealMines() {
     }
 }
 function setWinnerResult(res) {
+    // console.log(res)
     var winnerName = prompt('Congratz! you won! what is your name?')
     var Winner = { name: winnerName, score: res, level: gLevel.SIZE }
     switch (gLevel.SIZE) {
         case 4:
-            gWinnersEasy.push(Winner)
-            window.localStorage.setItem('score', JSON.stringify(gWinnersEasy))
+            window.localStorage.setItem('scoreEasy', JSON.stringify(Winner))
             break
         case 8:
-            gWinnersMediume.push(Winner)
-            window.localStorage.setItem('score', JSON.stringify(gWinnersMediume))
+            window.localStorage.setItem('scoreMeduim', JSON.stringify(Winner))
             break
         case 12:
-            gWinnersHard.push(Winner)
-            window.localStorage.setItem('score', JSON.stringify(gWinnersHard))
+            window.localStorage.setItem('scoreHard', JSON.stringify(Winner))
             break
     }
 }
@@ -391,14 +456,14 @@ function renderHints(i, j) {
     gHintsCount--
     reavealNegs(i, j)
     setTimeout(reavealNegs, 1000, i, j)
-    console.log(gHintsCount)
+    // console.log(gHintsCount)
     gHintActivated = false
     gElHintSpan.innerText = 'Hints Left: ' + gHints.slice(0, gHintsCount * 2)
 }
-function sadSmily(){
+function sadSmily() {
     gElSmily.innerHTML = gSmilys.lose
 }
-function normalSmily(){
+function normalSmily() {
     gElSmily.innerHTML = gSmilys.default
 }
 

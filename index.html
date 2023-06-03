@@ -8,7 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
     <style>
-        body{
+        body {
             background-image: url(img/stars_gif.gif);
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -19,26 +19,28 @@
 
 <body onload="onInit()">
     <h1>Mine Swepper Prototype-v2</h1>
-    <h2> <button class="smily" onclick="onSmilyClick()"><span></span></button></h2>
-    <div class="timerBox">
-        <p><span id="seconds">00</span>:<span id="tens">00</span></p>
+    <div class="buttons-list">
+        <button class="lvl-button" onclick="chooseLevel(4,2)"> Easy</button>
+        <button class="lvl-button" onclick="chooseLevel(8,14)"> Mediume</button>
+        <button class="lvl-button" onclick="chooseLevel(12,32)"> Hard</button>
     </div>
-    <div class="healthPoints"></div>
     <div class="gameBox">
-        <div class="buttons-list">
-            <button class="lvl-button" onclick="chooseLevel(4,2)"> Easy</button>
-            <button class="lvl-button" onclick="chooseLevel(8,14)"> Mediume</button>
-            <button class="lvl-button" onclick="chooseLevel(12,32)"> Hard</button>
+         <button class="smily" onclick="onSmilyClick()"></button>
+        <div class="timerBox">
+            <p class="clock">Time: <br><span id="tens">00</span>:<span id="seconds">00</span></p>
         </div>
-        <div class="hints" onclick="getHint()"> Get Hint <span>Hints Left: </span></div>
-
-        <table>
-            <tbody class="boardCover"></tbody>
-        </table>
-
-        <table class="board-container">
-            <tbody class="board"></tbody>
-        </table>
+        <div class="hints" onclick="getHint()"> Get Hint <br> <span>Hints Left: </span></div>
+        <div class="healthPoints"></div>
+        <div class="winnersTable">
+            <table>
+                <tbody class="winnersBoard"></tbody>
+            </table>
+        </div>
+        <div>
+            <table class="board-container">
+                <tbody class="board"></tbody>
+            </table>
+        </div>
     </div>
     <footer>Tomer Appelman</footer>
     <script src="js/util.js"></script>
