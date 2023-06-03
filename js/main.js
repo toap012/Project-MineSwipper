@@ -36,15 +36,34 @@ var gAppendSeconds = document.getElementById("seconds")
 var gAppendTens = document.getElementById("tens")
 var gHintActivated = false
 var gWinnersBoard
-var gWinners = []
+var gWinnersEasy = []
+var gWinnersMeduim = []
+var gWinnersHard = []
+var gGamewon = false
+var gSafeClicks = 3
+var gMegaHint = 1
+var gMegaHintIsOn = false
+var gMegaHintPos = []
+var gMegaHintCounter = 0
+var gElSafeClicksSpan = document.querySelector('.safeClick span')
+gElSafeClicksSpan.innerText = 'Clicks Remains: ' + gSafeClicks
+var gElMegaHintSpan = document.querySelector('.megaHint span')
+gElMegaHintSpan.innerText = 'Clicks Remains: ' + gMegaHint
 
 
 
 function onInit() {
+    gMegaHintCounter = 0
+    gMegaHint = 1
+    gElMegaHintSpan.innerText = 'Clicks Remains: ' + gMegaHint
     gElSmily.innerHTML = gSmilys.default
-    gWinners = []
+    // gWinners = []
     gGame.isOn = true
+    gGamewon = false
     gGame.shownCount = 0
+    gSafeClicks = 3
+    gMegaHint = 1
+    gMegaHintIsOn = false
     gGame.markedCount = 0
     gGame.secsPassed = 0
     gTens = 0
@@ -53,6 +72,7 @@ function onInit() {
     gHealthPoints = 3
     gHp = '❤❤❤'
     gHints = '💡💡💡'
+    gElSafeClicksSpan.innerText = 'Clicks Remains: ' + gSafeClicks
     gElHintSpan.innerHTML = 'Hints Left: ' + gHints
     gElHp.innerHTML = gHp
     gAppendSeconds.innerHTML = '00'
@@ -159,22 +179,44 @@ function chooseLevel(rowCount, minesCount) {
 }
 function getResults(level) {
     var currLevelWinners
+    var list
     switch (level) {
         case 4:
             currLevelWinners = JSON.parse(window.localStorage.getItem('scoreEasy'))
+            list = gWinnersEasy
+            list = gWinnersEasy
             break
         case 8:
             currLevelWinners = JSON.parse(window.localStorage.getItem('scoreMeduim'))
+            list = gWinnersMeduim
             break
         case 12:
             currLevelWinners = JSON.parse(window.localStorage.getItem('scoreHard'))
+            list = gWinnersHard
             break
         default: currLevelWinners = JSON.parse(window.localStorage.getItem('scoreEasy'))
+            list = gWinnersEasy
     }
-    gWinners.push(currLevelWinners)
-    gWinnersBoard = buildWinnersBoard(gWinners)
+    // console.log(gWinners)
+    // console.log(currLevelWinners)
+    // console.log(currLevelWinners.id)
+    // console.log(gWinners.length)
+    // console.log(gWinners[0])
+    // if (gWinners[0]!==undefined) {
+    //     console.log('hi')
+    //     for (var i = 0; i < gWinners.length; i++) {
+    //         console.log('hi 1')
+    //         if (gWinners[i].id !== currLevelWinners.id) gWinners.push(currLevelWinners)
+    //     }
+    // } else {
+    //     console.log('hi 2')
+    // }
+    console.log(gGamewon)
+    if (gGamewon) {
+        list.push(currLevelWinners)
+    }
+    gWinnersBoard = buildWinnersBoard(list)
     renderWinnersBoard(gWinnersBoard)
-
 }
 function buildWinnersBoard(winners) {
     var board = []
@@ -260,11 +302,23 @@ function onCellClicked(elCell, i, j) {
     }
 
     if (!gFirstClick) {
-        console.log(cell.str)
+        // console.log(cell.str)
         firstClick(elCell, i, j)
         gFirstClick = true
     }
+    if (gMegaHintIsOn) {
+        var currCellPos = { i, j }
+        gMegaHintPos.push(currCellPos)
+        gMegaHintCounter++
+        if (gMegaHintCounter === 2) {
+            onMegaHint(gMegaHintPos)
+            gMegaHintIsOn = false
+            gMegaHint--
+            gElMegaHintSpan.innerText = 'Clicks Remains: ' + gMegaHint
 
+        }
+        return
+    }
     if (gHintActivated) {
         renderHints(i, j)
         if (gHintsCount === 0) {
@@ -373,15 +427,12 @@ function checkGameWon() {
     var diff = gLevel.SIZE * gLevel.SIZE - gLevel.MINES
     if (gGame.shownCount === diff && gGame.markedCount === gLevel.MINES) {
         gGame.isOn = false
-        // showModal()
+        gGamewon = true
         gElSmily.innerHTML = gSmilys.win
         revealMines()
-        gCurrScore = gAppendSeconds.innerHTML
-        console.log(gAppendSeconds.innerHTML)
-        setTimeout(setWinnerResult, 4000, gCurrScore)
+        gCurrScore = gAppendTens.innerHTML + ':' + gAppendSeconds.innerHTML
+        setTimeout(setWinnerResult, 2500, gCurrScore)
         clearInterval(gTimerInterval)
-        // setWinnerResult(gTimerInterval)
-        // setTimeout(onInit, 5000)
     }
 }
 
@@ -435,7 +486,7 @@ function revealMines() {
 function setWinnerResult(res) {
     // console.log(res)
     var winnerName = prompt('Congratz! you won! what is your name?')
-    var Winner = { name: winnerName, score: res, level: gLevel.SIZE }
+    var Winner = { name: winnerName, score: res, level: gLevel.SIZE, id: makeId(3) }
     switch (gLevel.SIZE) {
         case 4:
             window.localStorage.setItem('scoreEasy', JSON.stringify(Winner))
@@ -447,6 +498,7 @@ function setWinnerResult(res) {
             window.localStorage.setItem('scoreHard', JSON.stringify(Winner))
             break
     }
+    getResults(gLevel.SIZE)
 }
 
 function renderHints(i, j) {
@@ -465,6 +517,61 @@ function sadSmily() {
 }
 function normalSmily() {
     gElSmily.innerHTML = gSmilys.default
+}
+function onSafeClick() {
+    var spoted = false
+    if (gSafeClicks === 0) return
+    while (!spoted) {
+        var randRowIdx = getRandomInt(0, gBoard.length)
+        var randColIdx = getRandomInt(0, gBoard.length)
+        var currCell = gBoard[randRowIdx][randColIdx]
+        if (currCell.isMine || currCell.isShown) continue
+        var currElCell = document.querySelector(`[data-i="${randRowIdx}"][data-j="${randColIdx}"]`)
+        currElCell.classList.add('safe')
+        setTimeout(() => {
+            currElCell.classList.remove('safe')
+        }, 1000);
+        spoted = true
+        gSafeClicks--
+        gElSafeClicksSpan.innerHTML = 'Clicks Remains: ' + gSafeClicks
+        return
+    }
+
+}
+
+function onMegaHintClick() {
+    if (gMegaHintCounter !== 2) {
+        gMegaHintIsOn = true
+    }
+    return
+
+}
+function onMegaHint(pos) {
+    var from = pos[0]
+    var to = pos[1]
+    console.log(from)
+    console.log(to)
+    for (var i = from.i; i < to.i + 1; i++) {
+        for (var j = from.j; j < to.j + 1; j++) {
+            var currCell = gBoard[i][j]
+            var currElCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+            currElCell.classList.add('revealed')
+            currElCell.innerHTML = currCell.str
+        }
+    }
+    setTimeout(() => {
+        console.log('hi')
+        for (var i = from.i; i < to.i + 1; i++) {
+            for (var j = from.j; j < to.j + 1; j++) {
+                var currCell = gBoard[i][j]
+                var currElCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+                currElCell.classList.remove('revealed')
+                currElCell.innerHTML = ''
+            }
+        }
+    }, 2000);
+
+
 }
 
 

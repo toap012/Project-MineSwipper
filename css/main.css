@@ -12,6 +12,9 @@ body {
 h1 {
     margin: 0;
 }
+button:hover{
+    cursor: pointer;
+}
 
 .gameBox {
     margin: 0;
@@ -33,13 +36,20 @@ h1 {
     height: 50px;
     transition: 0.8s;
 }
+
+.cell:hover {
+    background-color: rgb(64, 60, 60);
+    cursor: pointer;
+}
+
 button.smily {
     background: none;
     font-size: 70px;
     border: none;
     margin: 0;
 }
-.clock{
+
+.clock {
     position: absolute;
     top: 88px;
     left: 800px;
@@ -59,10 +69,12 @@ button.smily {
     top: 75px;
     left: 550px;
     font-size: 25px;
+    transition: 0.6s;
 }
 
 .hints:hover {
     cursor: pointer;
+    border: solid yellow 8px;
 }
 
 .revealed {
@@ -77,11 +89,16 @@ button.smily {
 .healthPoints {
     position: absolute;
     color: red;
-    font-size: 60px;
+    font-size: 40px;
     left: 1150px;
     top: 75px;
     border-radius: 20px;
     border: dashed rgb(111, 37, 37);
+    transition: 1s;
+}
+
+.healthPoints:hover {
+    font-size: 60px;
 }
 
 .buttons-list {
@@ -104,8 +121,9 @@ footer {
     height: 30px;
 }
 
-button:hover {
+.lvl-button:hover {
     cursor: pointer;
+    border: solid 5px;
 }
 
 .shown {
@@ -113,7 +131,7 @@ button:hover {
     border: solid rgba(56, 56, 56, 0.748) 7px;
     width: 40px;
     height: 40px;
-    
+
 }
 
 .winnersTable {
@@ -122,7 +140,7 @@ button:hover {
     width: 200px;
     left: 330px;
     top: 75px;
-    
+
 }
 
 .WinnersHeader {
@@ -136,4 +154,45 @@ button:hover {
 .winnerCell {
     border: solid black 7px;
     color: darkorchid;
-} 
+}
+
+.safeClick {
+    position: absolute;
+    color: rgb(0, 128, 255);
+    border: solid rgb(0, 128, 255);
+    border-radius: 10px;
+    top: 90px;
+    left: 1000px;
+    font-size: 25px;
+    background: none;
+}
+
+.safeClick:hover {
+    border: solid rgb(0, 128, 255)5px;
+}
+.safeClick span{
+    color: white;
+    font-size: 15px;
+}
+.safe{
+    background-color: rgb(6, 242, 18);
+}
+.megaHint{
+    position: absolute;
+    color: green;
+    border: solid green;
+    border-radius: 10px;
+    top: 90px;
+    left: 1350px;
+    font-size: 40px;
+    background: none;
+    transition: 1s;
+
+}
+.megaHint:hover{
+    border: solid green 10px;
+}
+.megaHint span{
+    color: white;
+    font-size: 20px;
+}
