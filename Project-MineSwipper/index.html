@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        body {
+            background-image: url(img/stars_gif.gif);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body onload="onInit()">
+    <h1>Mine Swepper Prototype-v2</h1>
+    <div class="buttons-list">
+        <button class="lvl-button" onclick="onChooseLevel(4,2)"> Easy</button>
+        <button class="lvl-button" onclick="onChooseLevel(8,14)"> Mediume</button>
+        <button class="lvl-button" onclick="onChooseLevel(12,32)"> Hard</button>
+    </div>
+    <div class="gameBox">
+         <button class="smily" onclick="onSmilyClick()"></button>
+         <button class="safeClick" onclick="onSafeClick()">safe Click <br><span></span></button>
+         <button class="megaHint" onclick="onMegaHintClick()">Mega Hint <br><span></span></button>
+        <div class="timerBox">
+            <p class="clock">Time: <br><span id="tens">00</span>:<span id="seconds">00</span></p>
+        </div>
+        <div class="hints" onclick="getHint()"> Get Hint <br> <span>Hints Left: </span></div>
+        <div class="healthPoints"></div>
+        <div class="winnersTable">
+            <table>
+                <tbody class="winnersBoard"></tbody>
+            </table>
+        </div>
+        <div>
+            <table class="board-container">
+                <tbody class="board"></tbody>
+            </table>
+        </div>
+    </div>
+    <footer>Tomer Appelman</footer>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

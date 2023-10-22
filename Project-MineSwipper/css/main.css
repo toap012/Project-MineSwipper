@@ -1,0 +1,198 @@
+body {
+    /* position: absolute; */
+    border: solid black;
+    color: rgb(255, 13, 0);
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+h1 {
+    margin: 0;
+}
+button:hover{
+    cursor: pointer;
+}
+
+.gameBox {
+    margin: 0;
+}
+
+.board-container {
+    margin: auto;
+    border: ridge gray;
+    border-spacing: 4px;
+    border-collapse: separate;
+}
+
+.cell {
+    color: rgb(237, 25, 25);
+    background-color: rgb(131, 125, 131);
+    border: solid rgb(253, 253, 253);
+    font-size: 35px;
+    width: 50px;
+    height: 50px;
+    transition: 0.8s;
+}
+
+.cell:hover {
+    background-color: rgb(64, 60, 60);
+    cursor: pointer;
+}
+
+button.smily {
+    background: none;
+    font-size: 70px;
+    border: none;
+    margin: 0;
+}
+
+.clock {
+    position: absolute;
+    top: 88px;
+    left: 800px;
+    font-size: 33px;
+    border: solid rgb(32, 32, 144);
+    color: antiquewhite;
+    margin: 0;
+}
+
+
+.hints {
+    position: absolute;
+    color: yellow;
+    padding: 10px;
+    border: solid yellow;
+    width: 200px;
+    top: 75px;
+    left: 550px;
+    font-size: 25px;
+    transition: 0.6s;
+}
+
+.hints:hover {
+    cursor: pointer;
+    border: solid yellow 8px;
+}
+
+.revealed {
+    background-color: lightyellow;
+}
+
+.hints span {
+    color: white;
+    font-size: 20px;
+}
+
+.healthPoints {
+    position: absolute;
+    color: red;
+    font-size: 40px;
+    left: 1150px;
+    top: 75px;
+    border-radius: 20px;
+    border: dashed rgb(111, 37, 37);
+    transition: 1s;
+}
+
+.healthPoints:hover {
+    font-size: 60px;
+}
+
+.buttons-list {
+    margin: auto;
+    border-bottom: double burlywood;
+    width: 300px;
+    margin-top: 10px;
+}
+
+footer {
+    font-size: 20px;
+    color: blueviolet;
+    bottom: 0;
+}
+
+.lvl-button {
+    background-color: burlywood;
+    border-radius: 10px;
+    width: 80px;
+    height: 30px;
+}
+
+.lvl-button:hover {
+    cursor: pointer;
+    border: solid 5px;
+}
+
+.shown {
+    background: none;
+    border: solid rgba(56, 56, 56, 0.748) 7px;
+    width: 40px;
+    height: 40px;
+
+}
+
+.winnersTable {
+    position: absolute;
+    border: solid rgb(62, 81, 62);
+    width: 200px;
+    left: 330px;
+    top: 75px;
+
+}
+
+.WinnersHeader {
+    color: crimson;
+    font: bold;
+    font-size: 30px;
+    border: solid black 7px;
+    border-bottom: solid crimson;
+}
+
+.winnerCell {
+    border: solid black 7px;
+    color: darkorchid;
+}
+
+.safeClick {
+    position: absolute;
+    color: rgb(0, 128, 255);
+    border: solid rgb(0, 128, 255);
+    border-radius: 10px;
+    top: 90px;
+    left: 1000px;
+    font-size: 25px;
+    background: none;
+}
+
+.safeClick:hover {
+    border: solid rgb(0, 128, 255)5px;
+}
+.safeClick span{
+    color: white;
+    font-size: 15px;
+}
+.safe{
+    background-color: rgb(6, 242, 18);
+}
+.megaHint{
+    position: absolute;
+    color: green;
+    border: solid green;
+    border-radius: 10px;
+    top: 90px;
+    left: 1350px;
+    font-size: 40px;
+    background: none;
+    transition: 1s;
+
+}
+.megaHint:hover{
+    border: solid green 10px;
+}
+.megaHint span{
+    color: white;
+    font-size: 20px;
+}
