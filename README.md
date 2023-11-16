@@ -17,7 +17,7 @@ Welcome to Minesweeper! This project is a simple implementation of the classic M
 
 ## Demo
 
-![Minesweeper Demo](demo.png)
+![Minesweeper Demo](img/demo.png)
 
 ## Features
 
